@@ -69,13 +69,7 @@
             </svg>
             <span>Tra cứu học sinh</span>
           </button>
-          <button id="tab-overview-btn" class="flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-sky-100 hover:text-white hover:bg-white/10">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-            </svg>
-            <span>Đối chiếu 29 em</span>
-            <span class="ml-1 px-1.5 py-0.2 bg-emerald-400/30 text-white text-[11px] font-bold rounded-full">8B1</span>
-          </button>
+          
           <button id="tab-hospital-btn" class="flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-sky-100 hover:text-white hover:bg-white/10">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
@@ -109,11 +103,11 @@
               <svg class="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
               </svg>
-              Tra Cứu Bằng Mã Số BHXH hoặc Họ Tên
+              Bảo Mật Quyền Riêng Tư • Chỉ Tra Cứu Bằng Mã Số BHXH (12 Số)
             </span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Tra Cứu Thông Tin Học Sinh</h2>
             <p class="text-sm text-slate-600 mt-2">
-              Nhập <strong>mã số BHXH (12 số CCCD/Định danh)</strong> hoặc <strong>Họ và tên học sinh</strong> để mở thẻ BHYT và kiểm tra nơi khám chữa bệnh.
+              Mỗi học sinh chỉ được xem hồ sơ của mình khi nhập chính xác <strong>12 chữ số mã BHXH (số CCCD/định danh cá nhân)</strong>. Hệ thống <strong>không cho phép</strong> tra cứu bằng họ tên để bảo vệ dữ liệu học đường.
             </p>
 
             <!-- Search Form -->
@@ -127,7 +121,7 @@
                 <input 
                   type="text" 
                   id="bhxh-input" 
-                  placeholder="Nhập 12 số CCCD/BHXH, Họ và tên (vd: Ngô Gia Hân, Ánh...), hoặc STT (1-29)..." 
+                  placeholder="Nhập đúng 12 chữ số mã BHXH / CCCD của học sinh..." inputmode="numeric" maxlength="15" 
                   class="w-full pl-11 pr-10 py-3.5 bg-white border-2 border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 text-base font-medium transition-all shadow-sm"
                   autocomplete="off"
                 >
@@ -155,34 +149,10 @@
               </button>
             </form>
 
-            <!-- Disambiguation box (when multiple students match a name search) -->
-            <div id="disambiguation-box" class="hidden mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl text-left">
-              <div class="text-xs font-bold text-blue-900 mb-2">Tìm thấy nhiều học sinh phù hợp. Vui lòng chọn học sinh cần xem:</div>
-              <div id="disambiguation-list" class="space-y-1.5"></div>
-            </div>
+            
 
-            <!-- Quick sample chips for convenience -->
-            <div class="mt-4 pt-3 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
-              <span class="font-medium text-slate-600">Thử nhanh mẫu học sinh:</span>
-              <button type="button" class="sample-chip px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 rounded-lg border border-slate-200 transition-colors" data-code="079313019266" title="STT 1 - Lê Ngọc Ánh">
-                1. Lê Ngọc Ánh (BV Khánh Hội)
-              </button>
-              <button type="button" class="sample-chip px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 rounded-lg border border-slate-200 transition-colors" data-code="079313046142" title="STT 4 - Ngô Gia Hân">
-                4. Ngô Gia Hân (BV Gia Định CS2)
-              </button>
-              <button type="button" class="sample-chip px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 rounded-lg border border-slate-200 transition-colors" data-code="079313037187" title="STT 5 - Nguyễn Hoàng Gia Hân">
-                5. Nguyễn Hoàng Gia Hân (PK Phước An)
-              </button>
-              <button type="button" class="sample-chip px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 rounded-lg border border-slate-200 transition-colors" data-code="079313011484" title="STT 13 - Thiên Ngân (Chưa có BV)">
-                13. Thiên Ngân (Chưa có BV)
-              </button>
-              <button type="button" class="sample-chip px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 rounded-lg border border-slate-200 transition-colors" data-code="080213003514" title="STT 20 - Dương Minh Quân">
-                20. Dương Minh Quân (BV Nam Sài Gòn)
-              </button>
             </div>
-          </div>
         </div>
-      </div>
 
       <!-- Result Container (Dynamic) -->
       <div id="student-result-container">
@@ -195,7 +165,7 @@
           </div>
           <h3 class="text-lg font-bold text-slate-800">Chưa có thông tin tra cứu</h3>
           <p class="text-sm text-slate-500 max-w-md mx-auto mt-1">
-            Vui lòng nhập mã số BHXH hoặc Họ tên học sinh ở ô tìm kiếm phía trên rồi bấm <strong>"Tra cứu"</strong>.
+            Vui lòng nhập chính xác 12 chữ số mã BHXH / CCCD của học sinh ở ô tìm kiếm phía trên rồi bấm <strong>"Tra cứu"</strong>. Mỗi học sinh chỉ xem được hồ sơ của chính mình.
           </p>
           <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto text-left">
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
@@ -204,8 +174,10 @@
               <div class="text-xs text-slate-500 mt-0.5">23 em đã có nơi KCB, 6 em chưa</div>
             </div>
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
-              <div class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Tùy biến dữ liệu</div>
-              <div class="text-xl font-bold text-emerald-600 mt-1">Hỗ trợ chỉnh sửa</div>
+              <div class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Độ chính xác dữ liệu</div>
+              <div class="text-xl font-bold text-emerald-600 mt-1">Khớp 100% Excel</div>
+              <div class="text-xs text-slate-500 mt-0.5">Dữ liệu gốc chuẩn KHOI 8.xlsx</div>
+            </div>
               <div class="text-xs text-slate-500 mt-0.5">Cập nhật ngay nếu sai thông tin</div>
             </div>
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80">
@@ -228,8 +200,8 @@
             Mã số hoặc tên bạn nhập không khớp với hồ sơ học sinh nào trong cơ sở dữ liệu Khối 8.
           </p>
           <div class="mt-4 flex flex-wrap justify-center gap-2 text-xs text-amber-800">
-            <span class="bg-amber-100/80 px-2.5 py-1 rounded-md">💡 Bạn có thể tìm theo 12 số CCCD hoặc theo Họ tên</span>
-            <span class="bg-amber-100/80 px-2.5 py-1 rounded-md">💡 Xem danh sách tại tab "Đối chiếu 29 em" để kiểm tra</span>
+            <span class="bg-amber-100/80 px-2.5 py-1 rounded-md">💡 Mã số BHXH là dãy 12 số in trên thẻ Căn cước công dân gắn chip hoặc tài khoản VNeID</span>
+            <span class="bg-amber-100/80 px-2.5 py-1 rounded-md">💡 Để bảo mật, hệ thống không hỗ trợ tìm kiếm bằng họ tên</span>
           </div>
         </div>
 
@@ -244,17 +216,7 @@
               <span id="card-verified-time" class="text-xs text-slate-500"></span>
             </div>
             <div class="flex items-center space-x-2 w-full sm:w-auto flex-wrap">
-              <!-- Edit Button to fix wrong info -->
-              <button 
-                id="edit-student-btn"
-                class="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center space-x-1.5 shadow-sm"
-                title="Chỉnh sửa thông tin nếu có sai lệch"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-                <span>Sửa thông tin / Đổi nơi KCB</span>
-              </button>
+              
               <button 
                 id="copy-info-btn"
                 class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center space-x-1.5"
@@ -414,16 +376,7 @@
                     </div>
                     
                     <div class="mt-3 pt-3 border-t border-blue-200/80 flex items-center justify-between">
-                      <button 
-                        type="button" 
-                        id="card-quick-edit-hosp-btn"
-                        class="text-xs font-semibold text-amber-700 hover:text-amber-800 underline flex items-center gap-1 no-print"
-                      >
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-                        </svg>
-                        <span>Đổi nơi KCB này</span>
-                      </button>
+                      
 
                       <button 
                         type="button" 
@@ -439,15 +392,8 @@
                   </div>
 
                   <div id="card-no-hospital" class="hidden text-sm text-slate-600 py-2">
-                    <p class="italic text-slate-500 font-medium">Chưa có thông tin nơi KCB ban đầu trong file.</p>
-                    <p class="text-xs text-amber-700 font-medium mt-1">Học sinh bấm nút bên dưới để chọn ngay một cơ sở trong danh mục 419 bệnh viện.</p>
-                    <button 
-                      type="button"
-                      id="card-add-hosp-btn"
-                      class="mt-3 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors"
-                    >
-                      + Chọn nơi KCB ban đầu cho học sinh này
-                    </button>
+                    <p class="italic text-slate-500 font-medium">Chưa có thông tin nơi KCB ban đầu trong file Excel gốc.</p>
+                    <p class="text-xs text-slate-500 mt-1">Học sinh có thể tra cứu mã và tên bệnh viện phù hợp ở tab "Cơ sở KCB BHYT" để liên hệ giáo viên chủ nhiệm đăng ký.</p>
                   </div>
                 </div>
               </div>
@@ -517,88 +463,7 @@
 
     <!-- ============================================== -->
     <!-- TAB 2: ĐỐI CHIẾU DANH SÁCH 29 HỌC SINH 8B1 -->
-    <!-- ============================================== -->
-    <section id="overview-view" class="hidden space-y-6">
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200">
-                Bảng Đối Chiếu Hồ Sơ
-              </span>
-              <span class="text-xs text-slate-500 font-medium">Toàn bộ 29 học sinh Lớp 8B1</span>
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight mt-1">
-              Danh Sách Học Sinh & Nơi KCB Ban Đầu
-            </h2>
-            <p class="text-sm text-slate-600 mt-1">
-              Bảng đối chiếu toàn bộ thông tin từ file <strong>KHOI 8.xlsx</strong>. Bạn có thể nhấn vào bất kỳ học sinh nào để mở thẻ chi tiết hoặc chỉnh sửa trực tiếp thông tin bệnh viện nếu có sai lệch.
-            </p>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <button 
-              id="reset-all-students-btn"
-              class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
-              title="Khôi phục lại dữ liệu gốc từ file Excel"
-            >
-              <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-              </svg>
-              <span>Khôi phục dữ liệu gốc Excel</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Overview Filter Bar -->
-        <div class="mt-6 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div class="relative w-full sm:w-80">
-            <input 
-              type="text" 
-              id="overview-filter-input" 
-              placeholder="Lọc theo tên học sinh, số CCCD, bệnh viện..."
-              class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-blue-500"
-            >
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-2 text-xs text-slate-600">
-            <span>Tình trạng:</span>
-            <button class="status-filter-btn px-2.5 py-1 rounded bg-blue-600 text-white font-semibold" data-status="all">Tất cả (29)</button>
-            <button class="status-filter-btn px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700" data-status="has_hosp">Đã có BV (23)</button>
-            <button class="status-filter-btn px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700" data-status="no_hosp">Chưa có BV (6)</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Students Table -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-slate-700">
-            <thead class="bg-slate-50 text-slate-600 text-xs uppercase font-bold tracking-wider border-b border-slate-200">
-              <tr>
-                <th scope="col" class="py-3 px-3 text-center w-12">STT</th>
-                <th scope="col" class="py-3 px-4 min-w-[160px]">Họ và tên</th>
-                <th scope="col" class="py-3 px-4 w-32 font-mono">Mã BHXH (CCCD)</th>
-                <th scope="col" class="py-3 px-3 text-center w-20">Giới tính</th>
-                <th scope="col" class="py-3 px-3 w-24">Ngày sinh</th>
-                <th scope="col" class="py-3 px-4 min-w-[200px]">Địa chỉ thường trú</th>
-                <th scope="col" class="py-3 px-4 min-w-[220px]">Nơi KCB Ban Đầu</th>
-                <th scope="col" class="py-3 px-4 w-40">Trạng thái BHYT</th>
-                <th scope="col" class="py-3 px-3 text-center w-24">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody id="overview-table-body" class="divide-y divide-slate-100 text-xs">
-              <!-- Rendered via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+    
 
     <!-- ============================================== -->
     <!-- TAB 3: DANH MỤC CƠ SỞ Y TẾ (CÔNG KHAI CHO TẤT CẢ) -->
@@ -834,101 +699,6 @@
     </section>
   </main>
 
-  <!-- Edit Student / Change Hospital Modal -->
-  <div id="edit-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[92vh] flex flex-col overflow-hidden border border-slate-200">
-      <div class="bg-gradient-to-r from-amber-600 to-orange-600 text-white p-5 flex items-center justify-between">
-        <div class="flex items-center space-x-2.5">
-          <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-            </svg>
-          </div>
-          <div>
-            <h3 class="text-base font-bold text-white">Cập Nhật Thông Tin Học Sinh</h3>
-            <p class="text-xs text-amber-100" id="edit-modal-student-name">Học sinh: </p>
-          </div>
-        </div>
-        <button id="edit-modal-close-btn" class="text-white/70 hover:text-white p-1 rounded-lg hover:bg-white/10" title="Đóng">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-
-      <div class="p-6 overflow-y-auto space-y-4 text-xs">
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Họ và tên học sinh:</label>
-          <input type="text" id="edit-name" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 text-xs font-semibold focus:outline-none focus:border-blue-500">
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Mã số BHXH / CCCD (12 số):</label>
-            <input type="text" id="edit-bhxh" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 font-mono text-xs focus:outline-none focus:border-blue-500">
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Ngày sinh:</label>
-            <input type="text" id="edit-dob" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 text-xs focus:outline-none focus:border-blue-500">
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Địa chỉ thường trú:</label>
-          <input type="text" id="edit-address" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 text-xs focus:outline-none focus:border-blue-500">
-        </div>
-
-        <!-- Hospital selection -->
-        <div class="p-4 bg-blue-50/70 border border-blue-200 rounded-xl space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-blue-900">Nơi Khám Chữa Bệnh Ban Đầu:</span>
-            <span class="text-[11px] text-blue-700">Chọn từ 419 cơ sở KCB</span>
-          </div>
-
-          <div>
-            <label class="block text-slate-600 mb-1">Chọn nhanh bệnh viện theo danh mục:</label>
-            <select id="edit-hospital-select" class="w-full p-2.5 bg-white border border-blue-300 rounded-lg text-xs font-medium focus:outline-none focus:border-blue-500">
-              <option value="">-- Chưa đăng ký bệnh viện --</option>
-              <!-- Filled via JS -->
-            </select>
-          </div>
-
-          <div class="grid grid-cols-3 gap-2">
-            <div>
-              <label class="block text-slate-500 text-[11px] mb-0.5">Mã BV:</label>
-              <input type="text" id="edit-hosp-code" class="w-full p-2 bg-white border border-slate-300 rounded text-xs font-mono font-bold text-blue-700" readonly>
-            </div>
-            <div class="col-span-2">
-              <label class="block text-slate-500 text-[11px] mb-0.5">Tên bệnh viện:</label>
-              <input type="text" id="edit-hosp-name" class="w-full p-2 bg-white border border-slate-300 rounded text-xs font-medium text-slate-800" readonly>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Ghi chú tình trạng tham gia BHYT:</label>
-          <select id="edit-notes" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-medium focus:outline-none focus:border-blue-500">
-            <option value="Đã tham gia ở trường Đức Trí">Đã tham gia ở trường Đức Trí</option>
-            <option value="Chưa tham gia ở trường Đức Trí">Chưa tham gia ở trường Đức Trí</option>
-            <option value="Đã được nhà nước cấp thẻ BHYT">Đã được nhà nước cấp thẻ BHYT</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center">
-        <button id="edit-modal-cancel-btn" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-xl transition-colors">
-          Hủy bỏ
-        </button>
-        <button id="edit-modal-save-btn" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl transition-colors flex items-center gap-1.5 shadow-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span>Lưu thông tin mới</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Hospital Detail Modal -->
   <div id="hospital-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden">
     <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200">
@@ -1025,10 +795,9 @@
       HOSPITALS_MAP[h.ma_bv] = h;
     });
 
-    // Mutable state (allows editing and saving local updates)
-    let STUDENTS_DATA = JSON.parse(JSON.stringify(RAW_STUDENTS_DATA));
+    // Nguyên bản dữ liệu từ file KHOI 8.xlsx (Chỉ tra cứu 100% nguyên bản)
+    const STUDENTS_DATA = RAW_STUDENTS_DATA;
     let currentStudent = null;
-    let editingStudent = null;
 
     let filteredHospitals = [...HOSPITALS_DATA];
     let hospitalPage = 1;
@@ -1056,33 +825,26 @@
       }, 3000);
     }
 
-    // Navigation Switcher
+    // Điều hướng chuyển tab (Chỉ tra cứu 3 chức năng chính)
     const tabStudentBtn = document.getElementById('tab-student-btn');
-    const tabOverviewBtn = document.getElementById('tab-overview-btn');
     const tabHospitalBtn = document.getElementById('tab-hospital-btn');
     const tabGuideBtn = document.getElementById('tab-guide-btn');
 
     const studentView = document.getElementById('student-view');
-    const overviewView = document.getElementById('overview-view');
     const hospitalView = document.getElementById('hospital-view');
     const guideView = document.getElementById('guide-view');
 
     function switchTab(target) {
-      [tabStudentBtn, tabOverviewBtn, tabHospitalBtn, tabGuideBtn].forEach(btn => {
+      [tabStudentBtn, tabHospitalBtn, tabGuideBtn].forEach(btn => {
         btn.className = "flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-sky-100 hover:text-white hover:bg-white/10";
       });
       studentView.classList.add('hidden');
-      overviewView.classList.add('hidden');
       hospitalView.classList.add('hidden');
       guideView.classList.add('hidden');
 
       if (target === 'student') {
         tabStudentBtn.className = "flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-blue-800 shadow-md";
         studentView.classList.remove('hidden');
-      } else if (target === 'overview') {
-        tabOverviewBtn.className = "flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-blue-800 shadow-md";
-        overviewView.classList.remove('hidden');
-        renderOverviewTable();
       } else if (target === 'hospital') {
         tabHospitalBtn.className = "flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-blue-800 shadow-md";
         hospitalView.classList.remove('hidden');
@@ -1094,32 +856,11 @@
     }
 
     tabStudentBtn.addEventListener('click', () => switchTab('student'));
-    tabOverviewBtn.addEventListener('click', () => switchTab('overview'));
     tabHospitalBtn.addEventListener('click', () => switchTab('hospital'));
     tabGuideBtn.addEventListener('click', () => switchTab('guide'));
 
-    // Populate Hospital select for edit modal
-    const editHospSelect = document.getElementById('edit-hospital-select');
-    HOSPITALS_DATA.forEach(h => {
-      const opt = document.createElement('option');
-      opt.value = h.ma_bv;
-      opt.textContent = `${h.ma_bv} - ${h.ten_bv} (${h.cap_chuyen_mon || 'KCB'})`;
-      editHospSelect.appendChild(opt);
-    });
-
-    editHospSelect.addEventListener('change', (e) => {
-      const code = e.target.value;
-      if (code && HOSPITALS_MAP[code]) {
-        document.getElementById('edit-hosp-code').value = code;
-        document.getElementById('edit-hosp-name').value = HOSPITALS_MAP[code].ten_bv;
-      } else {
-        document.getElementById('edit-hosp-code').value = '';
-        document.getElementById('edit-hosp-name').value = '';
-      }
-    });
-
     // ==========================================
-    // STUDENT SEARCH LOGIC (SMART LOOKUP)
+    // STUDENT SEARCH LOGIC (STRICT 12-DIGIT BHXH ONLY)
     // ==========================================
     const searchForm = document.getElementById('search-form');
     const bhxhInput = document.getElementById('bhxh-input');
@@ -1129,32 +870,16 @@
     const notfoundMessage = document.getElementById('notfound-message');
     const studentCard = document.getElementById('student-card');
     const resetSearchBtn = document.getElementById('reset-search-btn');
-    const disambiguationBox = document.getElementById('disambiguation-box');
-    const disambiguationList = document.getElementById('disambiguation-list');
 
     bhxhInput.addEventListener('input', (e) => {
       const val = e.target.value.trim();
       clearInputBtn.classList.toggle('hidden', val.length === 0);
-      if (val.length === 0) {
-        disambiguationBox.classList.add('hidden');
-      }
     });
 
     clearInputBtn.addEventListener('click', () => {
       bhxhInput.value = '';
       clearInputBtn.classList.add('hidden');
-      disambiguationBox.classList.add('hidden');
       bhxhInput.focus();
-    });
-
-    document.querySelectorAll('.sample-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        const code = chip.getAttribute('data-code');
-        bhxhInput.value = code;
-        clearInputBtn.classList.remove('hidden');
-        disambiguationBox.classList.add('hidden');
-        doSearchStudent(code);
-      });
     });
 
     searchForm.addEventListener('submit', (e) => {
@@ -1166,167 +891,58 @@
     resetSearchBtn.addEventListener('click', () => {
       studentCard.classList.add('hidden');
       studentNotFoundCard.classList.add('hidden');
-      disambiguationBox.classList.add('hidden');
       studentDefaultCard.classList.remove('hidden');
       bhxhInput.value = '';
       clearInputBtn.classList.add('hidden');
       bhxhInput.focus();
     });
 
-    // Normalize Vietnamese text for flexible matching
-    function removeVietnameseTones(str) {
-      if (!str) return "";
-      return str.normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/đ/g, "d").replace(/Đ/g, "D")
-        .toLowerCase();
-    }
-
     function doSearchStudent(query) {
-      disambiguationBox.classList.add('hidden');
-
       if (!query || !query.trim()) {
-        showToast('Vui lòng nhập mã số BHXH hoặc Họ tên học sinh!', false);
+        showToast('Vui lòng nhập mã số BHXH (12 chữ số CCCD)!', false);
         bhxhInput.focus();
         return;
       }
 
       const q = query.trim();
 
-      // Check STT (e.g., '1', '4', '04', '29', 'stt 4', '#4', 'stt: 4')
-      const sttMatch = q.match(/^(?:stt\s*[:\.]?\s*|#\s*)?(\d{1,2})$/i);
-      if (sttMatch) {
-        const val = parseInt(sttMatch[1], 10);
-        if (val >= 1 && val <= 29) {
-          const match = STUDENTS_DATA.find(s => s.stt === val);
-          if (match) {
-            currentStudent = match;
-            displayStudentCard(match);
-            showToast(`Đã tìm thấy học sinh STT #${match.stt}: ${match.ho_ten}`);
-            return;
-          }
-        }
+      // Kiểm tra nếu người dùng cố tình nhập tên hoặc chữ cái
+      if (/[a-zA-Zà-ỹÀ-Ỹ]/.test(q)) {
+        showToast('Bảo mật: Không được tìm kiếm bằng họ tên học sinh!', false);
+        displayNotFound(q, 'Vì lý do bảo mật quyền riêng tư của học sinh, hệ thống <strong>KHÔNG CHO PHÉP tra cứu bằng Họ và Tên</strong>.<br><br>Học sinh vui lòng nhập chính xác <strong>12 chữ số mã số BHXH / CCCD</strong> của mình.');
+        return;
       }
 
-      // Check digits (CCCD / BHXH 12 digits or 11 digits missing leading 0)
       let digits = q.replace(/[^0-9]/g, '');
       if (digits.length === 11) {
-        // Automatically pad leading 0 for 11-digit numbers
+        // Tự động bù số 0 ở đầu nếu người dùng copy từ Excel bị mất số 0
         digits = '0' + digits;
       }
 
-      if (digits.length === 12) {
-        const exactMatch = STUDENTS_DATA.find(s => s.ma_bhxh === digits);
-        if (exactMatch) {
-          currentStudent = exactMatch;
-          displayStudentCard(exactMatch);
-          showToast('Đã tìm thấy học sinh: ' + exactMatch.ho_ten);
-          return;
-        }
-      } else if (digits.length >= 6) {
-        const partialMatches = STUDENTS_DATA.filter(s => s.ma_bhxh.endsWith(digits) || s.ma_bhxh.includes(digits));
-        if (partialMatches.length === 1) {
-          currentStudent = partialMatches[0];
-          displayStudentCard(partialMatches[0]);
-          showToast('Đã tìm thấy học sinh: ' + partialMatches[0].ho_ten);
-          return;
-        } else if (partialMatches.length > 1) {
-          renderDisambiguation(partialMatches);
-          showToast(`Tìm thấy ${partialMatches.length} học sinh khớp mã số. Vui lòng chọn bên dưới!`, false);
-          return;
-        }
-      }
-
-      // Name search
-      const normQ = removeVietnameseTones(q).trim();
-
-      // 1. Exact full name match (accented or unaccented)
-      const exactNameMatch = STUDENTS_DATA.find(s => 
-        removeVietnameseTones(s.ho_ten) === normQ || 
-        s.ho_ten.toLowerCase() === q.toLowerCase()
-      );
-      if (exactNameMatch) {
-        currentStudent = exactNameMatch;
-        displayStudentCard(exactNameMatch);
-        showToast('Đã tìm thấy học sinh: ' + exactNameMatch.ho_ten);
+      if (digits.length !== 12) {
+        showToast('Mã số BHXH phải đủ 12 chữ số!', false);
+        displayNotFound(q, `Mã số bạn nhập (<code>${q}</code>) có ${digits.length} chữ số. Mã số BHXH / CCCD hợp lệ phải có đúng <strong>12 chữ số</strong>.`);
         return;
       }
 
-      // 2. Token / Word matching (all query words must match words in student name)
-      const qWords = normQ.split(/\s+/).filter(w => w.length > 0);
-      const wordMatches = STUDENTS_DATA.filter(s => {
-        const sNorm = removeVietnameseTones(s.ho_ten);
-        const sWords = sNorm.split(/\s+/);
-        return qWords.every(qw => sWords.some(sw => sw === qw || sw.startsWith(qw)));
-      });
-
-      if (wordMatches.length === 1) {
-        currentStudent = wordMatches[0];
-        displayStudentCard(wordMatches[0]);
-        showToast('Đã tìm thấy học sinh: ' + wordMatches[0].ho_ten);
-        return;
-      } else if (wordMatches.length > 1) {
-        renderDisambiguation(wordMatches);
-        showToast(`Tìm thấy ${wordMatches.length} học sinh có tên phù hợp. Vui lòng chọn bên dưới!`, false);
-        return;
+      // Khớp chính xác 100% theo mã số BHXH 12 số
+      const match = STUDENTS_DATA.find(s => s.ma_bhxh === digits);
+      if (match) {
+        currentStudent = match;
+        displayStudentCard(match);
+        showToast('Đã mở hồ sơ học sinh thành công!');
+      } else {
+        currentStudent = null;
+        displayNotFound(digits, `Không tìm thấy học sinh nào khớp với mã số BHXH <strong>"${digits}"</strong> trong danh sách Khối 8. Vui lòng kiểm tra lại 12 số trên thẻ CCCD hoặc liên hệ GVCN.`);
+        showToast('Không tìm thấy mã số BHXH trong danh sách!', false);
       }
-
-      // 3. Substring match fallback
-      const subMatches = STUDENTS_DATA.filter(s => removeVietnameseTones(s.ho_ten).includes(normQ));
-      if (subMatches.length === 1) {
-        currentStudent = subMatches[0];
-        displayStudentCard(subMatches[0]);
-        showToast('Đã tìm thấy học sinh: ' + subMatches[0].ho_ten);
-        return;
-      } else if (subMatches.length > 1) {
-        renderDisambiguation(subMatches);
-        showToast(`Tìm thấy ${subMatches.length} học sinh phù hợp. Vui lòng chọn bên dưới!`, false);
-        return;
-      }
-
-      // Not found
-      currentStudent = null;
-      displayNotFound(q);
-      showToast('Không tìm thấy học sinh phù hợp', false);
     }
 
-    function renderDisambiguation(matches) {
-      disambiguationList.innerHTML = '';
-      matches.forEach(s => {
-        const item = document.createElement('div');
-        item.className = 'p-3 bg-white rounded-xl border border-blue-200 hover:border-blue-500 hover:bg-blue-50/70 hover:shadow-sm cursor-pointer transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs';
-        const hospText = s.ma_bv ? `<strong class="text-blue-700 font-mono">${s.ma_bv}</strong> - <span class="font-medium text-slate-800">${s.ten_bv}</span>` : `<span class="italic text-amber-600 font-medium">Chưa đăng ký BV trong file</span>`;
-        item.innerHTML = `
-          <div class="flex items-center space-x-2.5">
-            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-[11px] flex-shrink-0">#${s.stt}</span>
-            <div>
-              <div class="font-bold text-slate-900 text-sm">${s.ho_ten} <span class="text-xs font-normal text-slate-500">(${s.gioi_tinh}, sinh ${s.ngay_sinh})</span></div>
-              <div class="text-[11px] text-slate-500 font-mono mt-0.5">CCCD/BHXH: <strong class="text-blue-700">${s.ma_bhxh}</strong> • Lớp ${s.lop}</div>
-            </div>
-          </div>
-          <div class="text-[11px] bg-slate-50 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:text-right border sm:border-0 border-slate-100">
-            <div class="text-[10px] text-slate-400 font-semibold uppercase">Nơi KCB Ban Đầu:</div>
-            <div>${hospText}</div>
-          </div>
-        `;
-        item.addEventListener('click', () => {
-          currentStudent = s;
-          disambiguationBox.classList.add('hidden');
-          bhxhInput.value = s.ma_bhxh;
-          displayStudentCard(s);
-          showToast(`Đã chọn học sinh: ${s.ho_ten} (#${s.stt})`);
-        });
-        disambiguationList.appendChild(item);
-      });
-      disambiguationBox.classList.remove('hidden');
-      disambiguationBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function displayNotFound(query) {
+    function displayNotFound(query, customMsg) {
       studentDefaultCard.classList.add('hidden');
       studentCard.classList.add('hidden');
       studentNotFoundCard.classList.remove('hidden');
-      notfoundMessage.innerHTML = `Không tìm thấy học sinh nào khớp với thông tin <strong>"${query}"</strong> trong danh sách Khối 8 (Lớp 8B1). Vui lòng thử lại với mã CCCD/BHXH 12 số, số thứ tự (1-29), hoặc Họ và tên chính xác.`;
+      notfoundMessage.innerHTML = customMsg || `Không tìm thấy thông tin học sinh nào khớp với thông tin <strong>"${query}"</strong>. Vui lòng kiểm tra lại 12 số CCCD / BHXH.`;
       studentNotFoundCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -1449,195 +1065,6 @@
       }
 
       studentCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // Edit Student Modal Handlers
-    const editModal = document.getElementById('edit-modal');
-    const editStudentBtn = document.getElementById('edit-student-btn');
-    const cardQuickEditHospBtn = document.getElementById('card-quick-edit-hosp-btn');
-    const cardAddHospBtn = document.getElementById('card-add-hosp-btn');
-    const editModalCloseBtn = document.getElementById('edit-modal-close-btn');
-    const editModalCancelBtn = document.getElementById('edit-modal-cancel-btn');
-    const editModalSaveBtn = document.getElementById('edit-modal-save-btn');
-
-    function openEditModal(student) {
-      editingStudent = student;
-      document.getElementById('edit-modal-student-name').textContent = `Học sinh: ${student.ho_ten} (STT #${student.stt} - Lớp ${student.lop})`;
-      document.getElementById('edit-name').value = student.ho_ten;
-      document.getElementById('edit-bhxh').value = student.ma_bhxh;
-      document.getElementById('edit-dob').value = student.ngay_sinh;
-      document.getElementById('edit-address').value = student.dia_chi;
-      document.getElementById('edit-hosp-code').value = student.ma_bv || '';
-      document.getElementById('edit-hosp-name').value = student.ten_bv || '';
-      document.getElementById('edit-hospital-select').value = student.ma_bv || '';
-      document.getElementById('edit-notes').value = student.ghi_chu;
-
-      editModal.classList.remove('hidden');
-    }
-
-    function closeEditModal() {
-      editModal.classList.add('hidden');
-      editingStudent = null;
-    }
-
-    editStudentBtn.addEventListener('click', () => {
-      if (currentStudent) openEditModal(currentStudent);
-    });
-    cardQuickEditHospBtn.addEventListener('click', () => {
-      if (currentStudent) openEditModal(currentStudent);
-    });
-    cardAddHospBtn.addEventListener('click', () => {
-      if (currentStudent) openEditModal(currentStudent);
-    });
-
-    editModalCloseBtn.addEventListener('click', closeEditModal);
-    editModalCancelBtn.addEventListener('click', closeEditModal);
-
-    editModalSaveBtn.addEventListener('click', () => {
-      if (!editingStudent) return;
-      const newName = document.getElementById('edit-name').value.trim();
-      const newBhxh = document.getElementById('edit-bhxh').value.replace(/[^0-9]/g, '');
-      const newDob = document.getElementById('edit-dob').value.trim();
-      const newAddr = document.getElementById('edit-address').value.trim();
-      const newHospCode = document.getElementById('edit-hosp-code').value.trim();
-      const newHospName = document.getElementById('edit-hosp-name').value.trim();
-      const newNotes = document.getElementById('edit-notes').value;
-
-      if (!newName) {
-        showToast('Vui lòng không để trống tên học sinh!', false);
-        return;
-      }
-      if (newBhxh.length !== 12) {
-        showToast('Mã số BHXH / CCCD phải đủ 12 chữ số!', false);
-        return;
-      }
-
-      // Update student object
-      editingStudent.ho_ten = newName;
-      editingStudent.ma_bhxh = newBhxh;
-      editingStudent.ngay_sinh = newDob;
-      editingStudent.dia_chi = newAddr;
-      editingStudent.ma_bv = newHospCode;
-      editingStudent.ten_bv = newHospName;
-      editingStudent.ghi_chu = newNotes;
-
-      // Re-render
-      currentStudent = editingStudent;
-      displayStudentCard(editingStudent);
-      renderOverviewTable();
-      closeEditModal();
-      showToast('Đã lưu thông tin cập nhật thành công!');
-    });
-
-    // Reset all students back to raw Excel
-    document.getElementById('reset-all-students-btn').addEventListener('click', () => {
-      STUDENTS_DATA = JSON.parse(JSON.stringify(RAW_STUDENTS_DATA));
-      if (currentStudent) {
-        currentStudent = STUDENTS_DATA.find(s => s.stt === currentStudent.stt) || null;
-        if (currentStudent) displayStudentCard(currentStudent);
-      }
-      renderOverviewTable();
-      showToast('Đã khôi phục toàn bộ 29 học sinh về nguyên bản Excel!');
-    });
-
-    // ==========================================
-    // OVERVIEW TABLE LOGIC (ALL 29 STUDENTS)
-    // ==========================================
-    const overviewTableBody = document.getElementById('overview-table-body');
-    const overviewFilterInput = document.getElementById('overview-filter-input');
-    let overviewStatusFilter = 'all';
-
-    document.querySelectorAll('.status-filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.status-filter-btn').forEach(b => {
-          b.className = "status-filter-btn px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700";
-        });
-        btn.className = "status-filter-btn px-2.5 py-1 rounded bg-blue-600 text-white font-semibold";
-        overviewStatusFilter = btn.getAttribute('data-status');
-        renderOverviewTable();
-      });
-    });
-
-    overviewFilterInput.addEventListener('input', () => {
-      renderOverviewTable();
-    });
-
-    function renderOverviewTable() {
-      const q = overviewFilterInput.value.toLowerCase().trim();
-      const filtered = STUDENTS_DATA.filter(s => {
-        const matchQ = !q || 
-          s.ho_ten.toLowerCase().includes(q) || 
-          s.ma_bhxh.includes(q) || 
-          s.dia_chi.toLowerCase().includes(q) || 
-          s.ten_bv.toLowerCase().includes(q) ||
-          s.ma_bv.toLowerCase().includes(q);
-
-        let matchStatus = true;
-        if (overviewStatusFilter === 'has_hosp') matchStatus = !!s.ma_bv;
-        else if (overviewStatusFilter === 'no_hosp') matchStatus = !s.ma_bv;
-
-        return matchQ && matchStatus;
-      });
-
-      let html = '';
-      filtered.forEach(s => {
-        let statusBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">Chưa tham gia</span>';
-        if (s.ghi_chu.includes('Đã tham gia')) {
-          statusBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-100 text-emerald-800">Đã tham gia Đức Trí</span>';
-        } else if (s.ghi_chu.includes('nhà nước cấp')) {
-          statusBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-sky-100 text-sky-800">Nhà nước cấp</span>';
-        }
-
-        const hospDisplay = s.ma_bv ? `
-          <div class="font-bold text-slate-800">${s.ten_bv}</div>
-          <span class="inline-block mt-0.5 text-[10px] text-blue-700 font-bold bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200">${s.ma_bv}</span>
-        ` : `<span class="italic text-amber-600 font-medium">Chưa có nơi KCB</span>`;
-
-        html += `
-          <tr class="hover:bg-blue-50/40 transition-colors">
-            <td class="py-2.5 px-3 text-center font-mono text-slate-400 font-semibold">${s.stt}</td>
-            <td class="py-2.5 px-4 font-bold text-slate-900">
-              <a href="javascript:void(0)" class="open-student-link text-blue-600 hover:text-blue-800 underline" data-stt="${s.stt}">${s.ho_ten}</a>
-            </td>
-            <td class="py-2.5 px-4 font-mono font-semibold text-slate-700">${s.ma_bhxh}</td>
-            <td class="py-2.5 px-3 text-center">${s.gioi_tinh}</td>
-            <td class="py-2.5 px-3 font-mono">${s.ngay_sinh}</td>
-            <td class="py-2.5 px-4 text-slate-600 leading-snug">${s.dia_chi}</td>
-            <td class="py-2.5 px-4">${hospDisplay}</td>
-            <td class="py-2.5 px-4">${statusBadge}</td>
-            <td class="py-2.5 px-3 text-center space-x-1">
-              <button type="button" class="table-edit-btn px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded font-semibold text-[11px] border border-amber-200" data-stt="${s.stt}">
-                Sửa
-              </button>
-            </td>
-          </tr>
-        `;
-      });
-
-      overviewTableBody.innerHTML = html;
-
-      // Link clicks to open student card
-      document.querySelectorAll('.open-student-link').forEach(link => {
-        link.addEventListener('click', () => {
-          const stt = parseInt(link.getAttribute('data-stt'), 10);
-          const student = STUDENTS_DATA.find(s => s.stt === stt);
-          if (student) {
-            currentStudent = student;
-            switchTab('student');
-            bhxhInput.value = student.ma_bhxh;
-            displayStudentCard(student);
-          }
-        });
-      });
-
-      // Edit clicks
-      document.querySelectorAll('.table-edit-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const stt = parseInt(btn.getAttribute('data-stt'), 10);
-          const student = STUDENTS_DATA.find(s => s.stt === stt);
-          if (student) openEditModal(student);
-        });
-      });
     }
 
     // Copy student info button
@@ -1970,7 +1397,7 @@
 
     // Initialize
     renderHospitals();
-    renderOverviewTable();
+    
   </script>
 </body>
 </html>
