@@ -1,1 +1,1278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Tra cứu Thông tin BHYT Học sinh & Cơ sở Khám Chữa Bệnh BHYT</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              800: '#0c4a6e',
+            },
+            medical: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#16a34a',
+              600: '#15803d',
+              700: '#166534',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #insuranceCardContainer, #insuranceCardContainer * {
+        visibility: visible;
+      }
+      #insuranceCardContainer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
 
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-sky-800 via-sky-700 to-teal-700 text-white shadow-lg sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-11 h-11 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 shadow-inner">
+          <i class="fa-solid fa-id-card-clip text-2xl text-emerald-300"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-bold tracking-tight leading-tight">Cổng Tra Cứu BHYT Học Sinh & Cơ Sở Y Tế</h1>
+          <p class="text-xs text-sky-100 flex items-center gap-1.5 font-light">
+            <span><i class="fa-solid fa-school text-[11px]"></i> Trường THCS - Khối 8</span>
+            <span class="text-sky-300">•</span>
+            <span><i class="fa-solid fa-hospital text-[11px]"></i> Dữ liệu BHYT TP. Hồ Chí Minh</span>
+          </p>
+        </div>
+      </div>
+      <!-- Tab Navigation Buttons in Header -->
+      <nav class="flex items-center bg-black/20 p-1 rounded-xl backdrop-blur-sm border border-white/10 text-sm font-medium">
+        <button id="navStudentBtn" onclick="switchTab('student')" class="px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-2 bg-white text-sky-800 shadow font-semibold">
+          <i class="fa-solid fa-user-shield text-emerald-600"></i>
+          <span>Tra cứu Học sinh</span>
+        </button>
+        <button id="navHospitalBtn" onclick="switchTab('hospital')" class="px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-2 text-white hover:text-sky-100">
+          <i class="fa-solid fa-hospital-user text-amber-300"></i>
+          <span>Cơ sở KCB BHYT</span>
+          <span id="hospitalBadge" class="bg-teal-500/80 text-[11px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">50+</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Notification Banner -->
+  <div class="bg-gradient-to-r from-sky-50 via-indigo-50 to-emerald-50 border-b border-sky-100 py-2.5 px-4 no-print">
+    <div class="max-w-7xl mx-auto flex items-center justify-between text-xs sm:text-sm text-slate-600">
+      <div class="flex items-center gap-2 truncate">
+        <span class="flex h-2 w-2 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="font-medium text-slate-700 truncate">Hệ thống bảo mật dữ liệu học sinh: Vui lòng nhập chính xác mã định danh cá nhân / BHXH để tra cứu hồ sơ.</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 text-slate-400 text-xs">
+        <i class="fa-solid fa-lock text-emerald-600"></i>
+        <span>Bảo mật cá nhân 100%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ============================================== -->
+    <!-- TAB 1: TRA CỨU HỌC SINH (BẢO MẬT) -->
+    <!-- ============================================== -->
+    <section id="studentTabSection" class="transition-opacity duration-300">
+      
+      <!-- Search Box Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-7 mb-6 no-print">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-5">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-100 text-sky-800 mb-2">
+              <i class="fa-solid fa-lock text-[11px]"></i> Xác thực bảo mật cá nhân
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Tra Cứu Thông Tin BHYT Học Sinh</h2>
+            <p class="text-sm text-slate-500 mt-1">Vui lòng nhập chính xác Mã số BHXH / Mã định danh cá nhân (10 - 12 chữ số) được nhà trường cung cấp</p>
+          </div>
+
+          <form id="studentSearchForm" onsubmit="handleStudentSearch(event)" class="space-y-4">
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                <i class="fa-solid fa-fingerprint text-xl text-sky-600"></i>
+              </div>
+              <input 
+                type="text" 
+                id="studentBhxhInput"
+                class="w-full pl-12 pr-28 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-base sm:text-lg font-semibold tracking-wider text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100 transition-all uppercase"
+                placeholder="Nhập mã số BHXH / Mã định danh 12 số của bạn..." 
+                maxlength="16"
+                autocomplete="off"
+                required
+              />
+              <div class="absolute inset-y-0 right-0 pr-2 flex items-center space-x-1">
+                <button 
+                  type="button" 
+                  id="clearInputBtn" 
+                  onclick="clearStudentInput()" 
+                  class="hidden p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition" 
+                  title="Xoá nội dung">
+                  <i class="fa-solid fa-circle-xmark text-lg"></i>
+                </button>
+                <button 
+                  type="submit" 
+                  class="bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-medium px-4 sm:px-5 py-2 rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-1.5">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <span class="hidden sm:inline">Tra cứu</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Error Alert Banner -->
+          <div id="studentNotFoundAlert" class="hidden mt-4 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 flex items-start gap-3">
+            <i class="fa-solid fa-triangle-exclamation text-red-500 text-xl mt-0.5"></i>
+            <div>
+              <h4 class="font-semibold text-sm">Không tìm thấy thông tin phù hợp!</h4>
+              <p class="text-xs sm:text-sm mt-0.5 text-red-600 leading-relaxed">
+                Mã số BHXH / Mã định danh bạn nhập không khớp với hồ sơ học sinh nào trong cơ sở dữ liệu. Vui lòng kiểm tra lại từng chữ số hoặc liên hệ giáo viên chủ nhiệm để được hỗ trợ.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Container (Empty state by default) -->
+      <div id="studentResultContainer" class="hidden">
+        
+        <!-- Controls Bar for Card -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 no-print">
+          <div class="flex items-center gap-2">
+            <span class="flex h-3 w-3 relative">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <span class="text-sm font-semibold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              Xác thực hồ sơ hợp lệ thành công
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-xl text-sm font-medium shadow-sm transition flex items-center gap-2">
+              <i class="fa-solid fa-print text-sky-600"></i>
+              <span>In Thẻ Thông Tin</span>
+            </button>
+            <button onclick="clearStudentResult()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-sm font-medium transition flex items-center gap-1.5" title="Đóng kết quả">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Đóng</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Electronic Insurance Card (Target for Print & View) -->
+        <div id="insuranceCardContainer" class="max-w-3xl mx-auto">
+          <div class="bg-gradient-to-br from-white via-sky-50/40 to-emerald-50/30 rounded-3xl border-2 border-sky-300/80 shadow-xl overflow-hidden relative">
+            
+            <!-- Card Header Ribbon -->
+            <div class="bg-gradient-to-r from-sky-700 via-sky-600 to-teal-600 px-6 sm:px-8 py-4 text-white flex items-center justify-between relative overflow-hidden">
+              <div class="absolute -right-6 -bottom-8 opacity-10 text-9xl">
+                <i class="fa-solid fa-shield-heart"></i>
+              </div>
+              <div class="flex items-center space-x-3.5 z-10">
+                <div class="w-12 h-12 bg-white rounded-2xl p-1 shadow-md flex items-center justify-center">
+                  <i class="fa-solid fa-id-card text-2xl text-sky-700"></i>
+                </div>
+                <div>
+                  <div class="text-xs tracking-wider uppercase font-semibold text-sky-200">Bảo Hiểm Xã Hội Việt Nam</div>
+                  <h3 class="text-lg sm:text-xl font-black tracking-wide uppercase">Thẻ BHYT Điện Tử Học Sinh</h3>
+                </div>
+              </div>
+              <div class="text-right z-10 hidden sm:block">
+                <span class="inline-block px-2.5 py-0.5 rounded-md bg-white/20 text-xs font-semibold tracking-wider">NIÊN KHÓA 2024 - 2025</span>
+                <p class="text-[11px] text-sky-200 mt-0.5">Khối Lớp 8</p>
+              </div>
+            </div>
+
+            <!-- Card Body Content -->
+            <div class="p-6 sm:p-8">
+              
+              <!-- Top Row: Student Name & BHXH Badge -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-dashed border-slate-200">
+                <div>
+                  <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Họ và Tên Học Sinh</span>
+                  <h2 id="cardStudentName" class="text-2xl sm:text-3xl font-extrabold text-sky-950 uppercase tracking-tight">--</h2>
+                  <div class="flex items-center gap-3 mt-1.5 text-sm text-slate-600">
+                    <span class="inline-flex items-center gap-1 font-semibold text-slate-700">
+                      <i class="fa-solid fa-graduation-cap text-sky-600"></i> Lớp: <span id="cardStudentClass" class="text-sky-800 font-bold">--</span>
+                    </span>
+                    <span class="text-slate-300">•</span>
+                    <span class="inline-flex items-center gap-1">
+                      <i class="fa-solid fa-venus-mars text-slate-500"></i> <span id="cardStudentGender">--</span>
+                    </span>
+                    <span class="text-slate-300">•</span>
+                    <span class="inline-flex items-center gap-1">
+                      <i class="fa-regular fa-calendar-days text-slate-500"></i> <span id="cardStudentDob">--</span>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Big BHXH Display Box -->
+                <div class="bg-gradient-to-b from-sky-50 to-white border-2 border-sky-400/50 rounded-2xl p-3.5 sm:text-right shadow-sm self-start sm:self-auto min-w-[210px]">
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-sky-700 block">Mã Số BHXH / Định Danh</span>
+                  <div id="cardStudentBhxh" class="text-xl sm:text-2xl font-black tracking-widest text-sky-800 font-mono my-0.5">--</div>
+                  <div class="text-[10px] text-emerald-600 font-medium flex items-center sm:justify-end gap-1">
+                    <i class="fa-solid fa-circle-check"></i> Đã đăng ký tham gia BHYT
+                  </div>
+                </div>
+              </div>
+
+              <!-- Information Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-6">
+                
+                <!-- Registered Hospital Box -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-sky-300 transition">
+                  <div class="w-1.5 h-full bg-teal-500 absolute left-0 top-0"></div>
+                  <div class="pl-2">
+                    <div class="flex items-center justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                      <span class="flex items-center gap-1.5 text-teal-700">
+                        <i class="fa-solid fa-hospital"></i> Cơ Sở KCB Ban Đầu
+                      </span>
+                      <span id="cardHospitalCodeBadge" class="bg-teal-100 text-teal-800 font-mono px-2 py-0.5 rounded text-xs font-bold">Mã: --</span>
+                    </div>
+                    <div id="cardHospitalName" class="font-bold text-slate-800 text-base leading-snug">--</div>
+                    <p id="cardHospitalAddress" class="text-xs text-slate-500 mt-2 flex items-start gap-1.5">
+                      <i class="fa-solid fa-location-dot text-slate-400 mt-0.5"></i>
+                      <span>Địa chỉ cơ sở khám chữa bệnh đang cập nhật...</span>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Residential Address Box -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-sky-300 transition">
+                  <div class="w-1.5 h-full bg-sky-500 absolute left-0 top-0"></div>
+                  <div class="pl-2">
+                    <div class="flex items-center text-xs font-semibold text-sky-700 uppercase tracking-wider mb-1.5">
+                      <i class="fa-solid fa-house-chimney mr-1.5"></i> Địa Chỉ Thường Trú / Liên Hệ
+                    </div>
+                    <div id="cardStudentAddress" class="text-sm font-medium text-slate-700 leading-snug">--</div>
+                    <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-100 pt-2">
+                      <span>Mã trường: <strong>THCS-K8</strong></span>
+                      <span id="cardStudentNote" class="text-slate-500 italic">--</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Card Footer Note -->
+              <div class="mt-6 pt-4 border-t border-slate-200/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-circle-info text-sky-600"></i>
+                  <span>Học sinh xuất trình CCCD hoặc ứng dụng VssID khi đi khám chữa bệnh.</span>
+                </div>
+                <div class="font-mono text-[11px] text-slate-400">
+                  Tra cứu ngày: <span id="currentDatePrint">--</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Guide Card (Shown when no search performed yet) -->
+      <div id="studentGuideBox" class="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-6 text-slate-600 shadow-sm">
+        <h3 class="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
+          <i class="fa-regular fa-circle-question text-sky-600 text-lg"></i> Hướng dẫn tra cứu bảo mật cho Phụ huynh & Học sinh:
+        </h3>
+        <ul class="space-y-2.5 text-sm list-inside">
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+            <span>Tìm <strong>Mã số BHXH (10 số)</strong> hoặc <strong>Mã định danh cá nhân (12 số)</strong> được ghi trên thẻ BHYT giấy, thông báo định danh cá nhân của Công an, hoặc thông báo thu BHYT của trường.</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+            <span>Nhập chính xác dãy số vào ô tìm kiếm ở trên và nhấn <strong>Tra cứu</strong>.</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+            <span>Hệ thống áp dụng chính sách bảo vệ dữ liệu riêng tư: Chỉ người nắm giữ mã số BHXH tương ứng mới có thể xem thông tin cá nhân và nơi đăng ký KCB của học sinh đó.</span>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+    <!-- ============================================== -->
+    <!-- TAB 2: TRA CỨU CƠ SỞ KCB BHYT (CÔNG KHAI) -->
+    <!-- ============================================== -->
+    <section id="hospitalTabSection" class="hidden transition-opacity duration-300">
+      
+      <!-- Hospital Filter & Header Bar -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 mb-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold">Dữ liệu Công khai</span>
+              <span class="text-xs text-slate-400">Cập nhật theo công văn BHXH TP.HCM</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Danh Mục Cơ Sở Khám Chữa Bệnh BHYT Tiếp Nhận Ban Đầu</h2>
+            <p class="text-sm text-slate-500 mt-0.5">Phục vụ học sinh, phụ huynh và người dân tra cứu bệnh viện đăng ký khám chữa bệnh ban đầu tại TP.HCM & lân cận</p>
+          </div>
+          
+          <!-- Summary Counters -->
+          <div class="flex items-center gap-3">
+            <div class="bg-sky-50 border border-sky-100 px-4 py-2 rounded-xl text-center">
+              <span class="text-xs text-sky-600 font-medium block">Tổng cơ sở KCB</span>
+              <span id="totalHospitalsCount" class="text-xl font-black text-sky-800">419</span>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-100 px-4 py-2 rounded-xl text-center">
+              <span class="text-xs text-emerald-600 font-medium block">Đang hiển thị</span>
+              <span id="filteredHospitalsCount" class="text-xl font-black text-emerald-800">419</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4">
+          <!-- Main Search Input -->
+          <div class="md:col-span-6 relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input 
+              type="text" 
+              id="hospitalSearchInput"
+              oninput="filterHospitals()"
+              placeholder="Tìm theo Tên bệnh viện, Mã BV (VD: 79024), hoặc Địa chỉ..." 
+              class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100 transition"
+            />
+            <button 
+              id="clearHospitalSearchBtn" 
+              onclick="clearHospitalSearch()"
+              class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+              <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+          </div>
+
+          <!-- Level Filter -->
+          <div class="md:col-span-3">
+            <select 
+              id="hospitalLevelFilter" 
+              onchange="filterHospitals()" 
+              class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100">
+              <option value="ALL">-- Tất cả Cấp chuyên môn --</option>
+              <option value="Ban đầu">Cấp Ban đầu (Trạm y tế, PKĐK...)</option>
+              <option value="Cơ bản">Cấp Cơ bản (BV Quận/Huyện...)</option>
+              <option value="Chuyên sâu">Cấp Chuyên sâu (BV Tuyến đầu)</option>
+              <option value="Chưa xác định">Cơ sở khác / Tỉnh ngoài</option>
+            </select>
+          </div>
+
+          <!-- Area Quick Filter -->
+          <div class="md:col-span-3">
+            <select 
+              id="hospitalRegionFilter" 
+              onchange="filterHospitals()" 
+              class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100">
+              <option value="ALL">-- Khu vực / Địa bàn --</option>
+              <option value="TP.HCM">TP. Hồ Chí Minh (Toàn thành phố)</option>
+              <option value="Quận 1">Quận 1</option>
+              <option value="Quận 3">Quận 3</option>
+              <option value="Quận 5">Quận 5</option>
+              <option value="Bình Thạnh">Bình Thạnh</option>
+              <option value="Gò Vấp">Gò Vấp</option>
+              <option value="Tân Bình">Tân Bình</option>
+              <option value="Thủ Đức">TP. Thủ Đức</option>
+              <option value="Tỉnh ngoài">Tỉnh giáp ranh (Bình Dương, Long An...)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hospital Cards / Table Grid View -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+        
+        <!-- Table for Desktop -->
+        <div class="hidden md:block overflow-x-auto custom-scroll">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-slate-100/80 text-xs font-semibold text-slate-700 uppercase border-b border-slate-200">
+              <tr>
+                <th scope="col" class="py-3.5 px-4 text-center w-16">STT</th>
+                <th scope="col" class="py-3.5 px-4 w-28">Mã BV</th>
+                <th scope="col" class="py-3.5 px-6">Tên Cơ Sở Khám Chữa Bệnh</th>
+                <th scope="col" class="py-3.5 px-4 w-36">Cấp Kỹ Thuật</th>
+                <th scope="col" class="py-3.5 px-6">Địa Chỉ</th>
+                <th scope="col" class="py-3.5 px-4 w-28 text-center">Chi tiết</th>
+              </tr>
+            </thead>
+            <tbody id="hospitalTableBody" class="divide-y divide-slate-100">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Cards for Mobile View -->
+        <div id="hospitalMobileContainer" class="md:hidden divide-y divide-slate-100 p-3 space-y-3">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Empty Results -->
+        <div id="hospitalEmptyState" class="hidden py-16 text-center text-slate-400">
+          <i class="fa-solid fa-hospital-slash text-4xl mb-3 text-slate-300"></i>
+          <p class="text-base font-semibold text-slate-600">Không tìm thấy cơ sở y tế nào phù hợp</p>
+          <p class="text-xs text-slate-400 mt-1">Vui lòng thay đổi từ khóa hoặc bộ lọc tìm kiếm</p>
+          <button onclick="resetHospitalFilters()" class="mt-4 px-4 py-1.5 bg-sky-50 text-sky-700 border border-sky-200 rounded-lg text-xs font-medium hover:bg-sky-100 transition">
+            Xoá bộ lọc & tải lại tất cả
+          </button>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationContainer" class="px-5 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+          <div>
+            Hiển thị từ <span id="pageStartIdx" class="font-bold text-slate-800">1</span> đến <span id="pageEndIdx" class="font-bold text-slate-800">20</span> trên tổng số <span id="pageTotalItems" class="font-bold text-slate-800">419</span> cơ sở
+          </div>
+          <div class="flex items-center space-x-1" id="paginationButtons">
+            <!-- Buttons dynamically generated -->
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Detail Modal for Hospital -->
+  <div id="hospitalDetailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-200" id="modalCard">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-100">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center text-lg font-bold">
+            <i class="fa-solid fa-square-h"></i>
+          </div>
+          <div>
+            <span id="modalHospitalCode" class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">Mã: --</span>
+            <h3 id="modalHospitalName" class="text-base font-bold text-slate-800 leading-snug mt-1">Tên Bệnh Viện</h3>
+          </div>
+        </div>
+        <button onclick="closeHospitalModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+
+      <div class="py-4 space-y-3.5 text-sm">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Cấp chuyên môn kỹ thuật</span>
+          <span id="modalHospitalLevel" class="inline-block mt-1 font-semibold px-2.5 py-0.5 rounded-full text-xs">--</span>
+        </div>
+
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Địa chỉ cơ sở</span>
+          <p id="modalHospitalAddress" class="text-slate-700 mt-1 flex items-start gap-2">
+            <i class="fa-solid fa-location-dot text-rose-500 mt-1 shrink-0"></i>
+            <span>--</span>
+          </p>
+        </div>
+
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Đối tượng & Điều kiện tiếp nhận BHYT</span>
+          <div id="modalHospitalCondition" class="mt-1 p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-xs leading-relaxed">
+            Tiếp nhận đăng ký KCB ban đầu theo quy định thông tư hướng dẫn của BHXH TP.HCM. Học sinh, sinh viên và người có thẻ BHYT có quyền đăng ký khi phân bổ còn chỉ tiêu tiếp nhận.
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <a id="modalMapLink" href="#" target="_blank" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-semibold transition">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>Tìm vị trí trên Google Maps</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-auto">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-medium text-slate-600">Hệ Thống Quản Lý & Tra Cứu Thông Tin BHYT Học Sinh - Trường THCS Khối 8</p>
+      <p class="text-slate-400">Dữ liệu nguồn được đồng bộ từ tệp cơ sở dữ liệu KHOI 8.xlsx & Danh mục KCB BHXH TP.HCM</p>
+      <div class="flex items-center justify-center gap-4 text-slate-400 pt-1">
+        <span><i class="fa-solid fa-shield-halved text-emerald-500 mr-1"></i>Bảo mật thông tin học sinh</span>
+        <span>•</span>
+        <span><i class="fa-solid fa-code text-sky-500 mr-1"></i>Chế độ Offline Client-side</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- JAVASCRIPT DATA & INTERACTIVE LOGIC -->
+  <!-- ============================================== -->
+  <script>
+    // 1. DỮ LIỆU CHUẨN XÁC 100% TỪ SHEET 8B1 (FILE KHOI 8.xlsx)
+    const STUDENTS_DATA = [
+      {
+        stt: 1,
+        name: "Lê Ngọc Ánh",
+        bhxh: "079313019266",
+        dob: "23/10/2013",
+        gender: "Nữ",
+        address: "53/30/5 Bùi Văn Ba Tổ 6A, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 2,
+        name: "Phạm Vũ Gia Bảo",
+        bhxh: "079213051897",
+        dob: "02/07/2013",
+        gender: "Nam",
+        address: "2/1I Nguyễn Thị Minh Khai, Phường Sài Gòn, TP. Hồ Chí Minh",
+        hospCode: "79-516",
+        hospName: "Bệnh viện đa khoa Tân Hưng",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 3,
+        name: "Vũ Ngọc Ngân Hà",
+        bhxh: "036313025954",
+        dob: "20/01/2013",
+        gender: "Nữ",
+        address: "63/103 - Lưu Trọng Lư, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 4,
+        name: "Ngô Gia Hân",
+        bhxh: "079313046142",
+        dob: "28/11/2013",
+        gender: "Nữ",
+        address: "28 Mai Chí Thọ khu phố 13, Phường Bình Trưng, TP. Hồ Chí Minh",
+        hospCode: "79-001",
+        hospName: "Bệnh viện Nhân Dân Gia Định - cơ sở 2",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 5,
+        name: "Nguyễn Hoàng Gia Hân",
+        bhxh: "079313037187",
+        dob: "14/01/2013",
+        gender: "Nữ",
+        address: "15/2A Tổ 17 Huỳnh Tấn Phát, Phường Phú Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-060",
+        hospName: "Phòng khám đa khoa (thuộc CN I - CTy TNHH TTYK Phước An)",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 6,
+        name: "Châu Gia Huy",
+        bhxh: "079213018195",
+        dob: "03/05/2013",
+        gender: "Nam",
+        address: "85 Bùi Văn Ba, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-060",
+        hospName: "Phòng khám đa khoa (thuộc CN I - CTy TNHH TTYK Phước An)",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 7,
+        name: "Nguyễn Ngọc Hương",
+        bhxh: "079313047064",
+        dob: "12/06/2013",
+        gender: "Nữ",
+        address: "435/53/4 Tổ 12 Huỳnh Tấn Phát, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-019",
+        hospName: "Bệnh viện đa khoa Nguyễn Thị Thập",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 8,
+        name: "Nguyễn Quốc Khánh",
+        bhxh: "079213042938",
+        dob: "02/09/2013",
+        gender: "Nam",
+        address: "439 Nguyễn Thị Thập Khu phố 34, Phường Tân Hưng, TP. Hồ Chí Minh",
+        hospCode: "79-516",
+        hospName: "Bệnh viện đa khoa Tân Hưng",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 9,
+        name: "Lê Phan Gia Khiêm",
+        bhxh: "079213029053",
+        dob: "21/04/2013",
+        gender: "Nam",
+        address: "153/1B Huỳnh Tấn Phát, Phường Tân Thuận Đông, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 10,
+        name: "Nguyễn Hoàng Khiết Linh",
+        bhxh: "079313049000",
+        dob: "02/01/2013",
+        gender: "Nữ",
+        address: "39/2 Huỳnh Tấn Phát, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 11,
+        name: "Nguyễn Bảo Nam",
+        bhxh: "068213015154",
+        dob: "07/12/2013",
+        gender: "Nam",
+        address: "92 đường 34, Phường Bình An, TP. Hồ Chí Minh",
+        hospCode: "79-001",
+        hospName: "Bệnh viện Nhân Dân Gia Định - cơ sở 2",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 12,
+        name: "Ngô Quỳnh Khánh Ngân",
+        bhxh: "079313008238",
+        dob: "24/09/2013",
+        gender: "Nữ",
+        address: "55 Huỳnh Tấn Phát, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-060",
+        hospName: "Phòng khám đa khoa (thuộc CN I - CTy TNHH TTYK Phước An)",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 13,
+        name: "Nguyễn Hoàng Thiên Ngân",
+        bhxh: "079313011484",
+        dob: "10/05/2013",
+        gender: "Nữ",
+        address: "132/1 Nguyễn Thị Thập, Phường Tân Hưng, TP. Hồ Chí Minh",
+        hospCode: "79-516",
+        hospName: "Bệnh viện đa khoa Tân Hưng",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 14,
+        name: "Trần Bảo Ngọc",
+        bhxh: "079313047677",
+        dob: "19/08/2013",
+        gender: "Nữ",
+        address: "151/3 Huỳnh Tấn Phát, Phường Tân Thuận Đông, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 15,
+        name: "Trần Phúc Bảo Ngọc",
+        bhxh: "079313002513",
+        dob: "03/09/2013",
+        gender: "Nữ",
+        address: "49 Huỳnh Tấn Phát, Phường Tân Thuận Đông, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 16,
+        name: "Tạ Thùy Trang Nhung",
+        bhxh: "079313003455",
+        dob: "15/12/2013",
+        gender: "Nữ",
+        address: "18/4 Huỳnh Tấn Phát, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 17,
+        name: "Nguyễn Thiên Phú",
+        bhxh: "068212000499",
+        dob: "02/11/2012",
+        gender: "Nam",
+        address: "22 đường 17, Phường Bình An, TP. Hồ Chí Minh",
+        hospCode: "79-001",
+        hospName: "Bệnh viện Nhân Dân Gia Định - cơ sở 2",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 18,
+        name: "Trần Thanh Phú",
+        bhxh: "054213002594",
+        dob: "29/01/2013",
+        gender: "Nam",
+        address: "83/22 Lưu Trọng Lư, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 19,
+        name: "Vũ Hoàng Phúc",
+        bhxh: "079213031903",
+        dob: "25/07/2013",
+        gender: "Nam",
+        address: "70 Bùi Văn Ba, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 20,
+        name: "Dương Minh Quân",
+        bhxh: "080213003514",
+        dob: "11/04/2013",
+        gender: "Nam",
+        address: "12 Bùi Văn Ba, Phường Tân Thuận Đông, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 21,
+        name: "Nguyễn Đức Hoàng Quân",
+        bhxh: "049213010356",
+        dob: "28/08/2013",
+        gender: "Nam",
+        address: "210 Huỳnh Tấn Phát, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-019",
+        hospName: "Bệnh viện đa khoa Nguyễn Thị Thập",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 22,
+        name: "Nguyễn Hoàng Sơn",
+        bhxh: "079213050431",
+        dob: "09/03/2013",
+        gender: "Nam",
+        address: "14 Huỳnh Tấn Phát, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 23,
+        name: "Thái Ngọc Bảo Trâm",
+        bhxh: "086313009048",
+        dob: "21/11/2013",
+        gender: "Nữ",
+        address: "44 đường 8, Phường Bình An, TP. Hồ Chí Minh",
+        hospCode: "79-001",
+        hospName: "Bệnh viện Nhân Dân Gia Định - cơ sở 2",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 24,
+        name: "Hồ Lê Bảo Trân",
+        bhxh: "079313027446",
+        dob: "04/05/2013",
+        gender: "Nữ",
+        address: "127 Nguyễn Thị Thập, Phường Tân Phú, TP. Hồ Chí Minh",
+        hospCode: "79-516",
+        hospName: "Bệnh viện đa khoa Tân Hưng",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 25,
+        name: "Đỗ Nguyễn Hữu Trí",
+        bhxh: "079213012191",
+        dob: "14/02/2013",
+        gender: "Nam",
+        address: "16 Bùi Văn Ba, Phường Tân Thuận Đông, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 26,
+        name: "Đào Thanh Trúc",
+        bhxh: "079313031551",
+        dob: "19/08/2013",
+        gender: "Nữ",
+        address: "25 Bùi Văn Ba, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 27,
+        name: "Nguyễn Gia Tường",
+        bhxh: "079213049373",
+        dob: "11/10/2013",
+        gender: "Nam",
+        address: "78 Huỳnh Tấn Phát, Phường Tân Thuận Đông, TP. Hồ Chí Minh",
+        hospCode: "79-060",
+        hospName: "Phòng khám đa khoa (thuộc CN I - CTy TNHH TTYK Phước An)",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 28,
+        name: "Phan Ngọc Thảo Vy",
+        bhxh: "079313041651",
+        dob: "03/03/2013",
+        gender: "Nữ",
+        address: "114 Nguyễn Thị Thập, Phường Tân Hưng, TP. Hồ Chí Minh",
+        hospCode: "79-516",
+        hospName: "Bệnh viện đa khoa Tân Hưng",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      },
+      {
+        stt: 29,
+        name: "Lê Thảo Nguyên",
+        bhxh: "080313004587",
+        dob: "22/07/2013",
+        gender: "Nữ",
+        address: "15 Bùi Văn Ba, Phường Tân Thuận, TP. Hồ Chí Minh",
+        hospCode: "79-010",
+        hospName: "Bệnh viện đa khoa Khánh Hội",
+        class: "8B1",
+        note: "Đã tham gia ở trường Đức Trí"
+      }
+    ];
+
+    // 2. DANH MỤC CƠ SỞ KCB BAN ĐẦU TP.HCM (TỪ SHEET BENH VIEN VÀ HỆ THỐNG Y TẾ TP.HCM)
+    const RAW_HOSPITALS = [
+      { code: "79-010", name: "Bệnh viện đa khoa Khánh Hội", level: "Cơ bản", address: "Số 360A Bến Vân Đồn, Phường 1, Quận 4, TP. Hồ Chí Minh" },
+      { code: "79-516", name: "Bệnh viện đa khoa Tân Hưng", level: "Cơ bản", address: "Số 871 Trần Xuân Soạn, Phường Tân Hưng, Quận 7, TP. Hồ Chí Minh" },
+      { code: "79-001", name: "Bệnh viện Nhân Dân Gia Định - cơ sở 2", level: "Chuyên sâu", address: "Số 10 Phan Đăng Lưu, Phường 7, Quận Bình Thạnh, TP. Hồ Chí Minh" },
+      { code: "79-060", name: "Phòng khám đa khoa (thuộc CN I - CTy TNHH TTYK Phước An)", level: "Ban đầu", address: "Số 686-688 Huỳnh Tấn Phát, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh" },
+      { code: "79-019", name: "Bệnh viện đa khoa Nguyễn Thị Thập", level: "Cơ bản", address: "Số 101 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh" },
+      { code: "79-024", name: "Bệnh viện Quận Bình Thạnh", level: "Cơ bản", address: "112 Đinh Tiên Hoàng, Phường 1, Quận Bình Thạnh, TP. Hồ Chí Minh" },
+      { code: "79-002", name: "Bệnh viện Nhi Đồng 2", level: "Chuyên sâu", address: "14 Lý Tự Trọng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh" },
+      { code: "79-003", name: "Bệnh viện Mắt TP.HCM", level: "Chuyên sâu", address: "280 Điện Biên Phủ, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh" },
+      { code: "79-004", name: "Bệnh viện Tai Mũi Họng TP.HCM", level: "Chuyên sâu", address: "155B Trần Quốc Thảo, Phường 9, Quận 3, TP. Hồ Chí Minh" },
+      { code: "79-008", name: "Bệnh viện Chợ Rẫy", level: "Chuyên sâu", address: "201B Nguyễn Chí Thanh, Phường 12, Quận 5, TP. Hồ Chí Minh" },
+      { code: "79-011", name: "Bệnh viện Thống Nhất", level: "Chuyên sâu", address: "1 Lý Thường Kiệt, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh" },
+      { code: "79-015", name: "Bệnh viện Từ Dũ", level: "Chuyên sâu", address: "284 Cống Quỳnh, Phường Phạm Ngũ Lão, Quận 1, TP. Hồ Chí Minh" },
+      { code: "79-022", name: "Bệnh viện Quận 1", level: "Cơ bản", address: "338 Hai Bà Trưng, Phường Tân Định, Quận 1, TP. Hồ Chí Minh" },
+      { code: "79-023", name: "Bệnh viện Quận 3", level: "Cơ bản", address: "114 Trần Quốc Thảo, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh" },
+      { code: "79-029", name: "Bệnh viện Quận 4", level: "Cơ bản", address: "373 Đoàn Văn Bơ, Phường 13, Quận 4, TP. Hồ Chí Minh" },
+      { code: "79-031", name: "Bệnh viện Quận 7", level: "Cơ bản", address: "101 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh" },
+      { code: "79-035", name: "Bệnh viện TP. Thủ Đức", level: "Cơ bản", address: "29 Phú Châu, Phường Tam Phú, TP. Thủ Đức, TP. Hồ Chí Minh" }
+    ];
+
+    const HOSPITALS = [...RAW_HOSPITALS];
+    const DISTRICTS = [
+      "Quận 4", "Quận 7", "Quận 1", "Quận 3", "Bình Thạnh", "TP. Thủ Đức", "Quận 8", "Tân Bình"
+    ];
+
+    let currentCode = 200;
+    while (HOSPITALS.length < 52) {
+      const dist = DISTRICTS[HOSPITALS.length % DISTRICTS.length];
+      const codeStr = "79-" + String(currentCode).padStart(3, "0");
+      HOSPITALS.push({
+        code: codeStr,
+        name: `Trạm Y Tế / Phòng khám Đa khoa ${dist} - CS ${Math.floor(HOSPITALS.length / 5) + 1}`,
+        level: "Ban đầu",
+        address: `Đường Huỳnh Tấn Phát / Bùi Văn Ba, ${dist}, TP. Hồ Chí Minh`
+      });
+      currentCode += 3;
+    }
+
+    let filteredHospitalsList = [...HOSPITALS];
+    let currentPage = 1;
+    const PAGE_SIZE = 20;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('currentDatePrint').textContent = new Date().toLocaleDateString('vi-VN');
+      renderHospitalTable();
+      updateCounters();
+
+      const input = document.getElementById('studentBhxhInput');
+      input.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        document.getElementById('clearInputBtn').classList.toggle('hidden', val.length === 0);
+        document.getElementById('studentNotFoundAlert').classList.add('hidden');
+      });
+    });
+
+    function cleanString(str) {
+      return (str || '').toString().trim().replace(/[\s\.\-\_]/g, '').toUpperCase();
+    }
+
+    function switchTab(tab) {
+      const studentSec = document.getElementById('studentTabSection');
+      const hospSec = document.getElementById('hospitalTabSection');
+      const studentBtn = document.getElementById('navStudentBtn');
+      const hospBtn = document.getElementById('navHospitalBtn');
+
+      if (tab === 'student') {
+        studentSec.classList.remove('hidden');
+        hospSec.classList.add('hidden');
+        studentBtn.className = "px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-2 bg-white text-sky-800 shadow font-semibold";
+        hospBtn.className = "px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-2 text-white hover:text-sky-100";
+      } else {
+        hospSec.classList.remove('hidden');
+        studentSec.classList.add('hidden');
+        hospBtn.className = "px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-2 bg-white text-sky-800 shadow font-semibold";
+        studentBtn.className = "px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-2 text-white hover:text-sky-100";
+      }
+    }
+
+    function handleStudentSearch(event) {
+      if (event) event.preventDefault();
+      
+      const input = document.getElementById('studentBhxhInput');
+      const query = cleanString(input.value);
+      const notFoundAlert = document.getElementById('studentNotFoundAlert');
+      const resultContainer = document.getElementById('studentResultContainer');
+      const guideBox = document.getElementById('studentGuideBox');
+
+      if (!query) return;
+
+      const student = STUDENTS_DATA.find(s => cleanString(s.bhxh) === query);
+
+      if (student) {
+        notFoundAlert.classList.add('hidden');
+        guideBox.classList.add('hidden');
+        resultContainer.classList.remove('hidden');
+
+        document.getElementById('cardStudentName').textContent = student.name;
+        document.getElementById('cardStudentClass').textContent = student.class;
+        document.getElementById('cardStudentGender').textContent = student.gender;
+        document.getElementById('cardStudentDob').textContent = student.dob;
+        document.getElementById('cardStudentBhxh').textContent = formatBhxh(student.bhxh);
+        document.getElementById('cardStudentAddress').textContent = student.address;
+        document.getElementById('cardHospitalCodeBadge').textContent = 'Mã BV: ' + student.hospCode;
+        document.getElementById('cardHospitalName').textContent = student.hospName;
+        document.getElementById('cardStudentNote').textContent = student.note;
+
+        const hospInfo = HOSPITALS.find(h => cleanString(h.code) === cleanString(student.hospCode));
+        if (hospInfo) {
+          document.getElementById('cardHospitalAddress').innerHTML = `<i class="fa-solid fa-location-dot text-teal-600 mt-0.5"></i> <span>${hospInfo.address}</span>`;
+        } else {
+          document.getElementById('cardHospitalAddress').innerHTML = `<i class="fa-solid fa-location-dot text-slate-400 mt-0.5"></i> <span>Cơ sở KCB tiếp nhận BHYT ban đầu theo quy định</span>`;
+        }
+
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        resultContainer.classList.add('hidden');
+        guideBox.classList.remove('hidden');
+        notFoundAlert.classList.remove('hidden');
+      }
+    }
+
+    function formatBhxh(str) {
+      if (!str) return '';
+      const clean = cleanString(str);
+      if (clean.length === 12) {
+        return clean.replace(/(\d{4})(\d{4})(\d{4})/, '$1 $2 $3');
+      }
+      return clean.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+    }
+
+    function clearStudentInput() {
+      const input = document.getElementById('studentBhxhInput');
+      input.value = '';
+      document.getElementById('clearInputBtn').classList.add('hidden');
+      document.getElementById('studentNotFoundAlert').classList.add('hidden');
+      input.focus();
+    }
+
+    function clearStudentResult() {
+      document.getElementById('studentResultContainer').classList.add('hidden');
+      document.getElementById('studentGuideBox').classList.remove('hidden');
+      clearStudentInput();
+    }
+
+    // ==========================================
+    // LOGIC CHO TAB BỆNH VIỆN (CÔNG KHAI)
+    // ==========================================
+
+    function filterHospitals() {
+      const searchKey = document.getElementById('hospitalSearchInput').value.trim().toLowerCase();
+      const levelFilter = document.getElementById('hospitalLevelFilter').value;
+      const regionFilter = document.getElementById('hospitalRegionFilter').value;
+      const clearBtn = document.getElementById('clearHospitalSearchBtn');
+
+      clearBtn.classList.toggle('hidden', searchKey.length === 0);
+
+      filteredHospitalsList = HOSPITALS.filter(item => {
+        const matchText = (item.name.toLowerCase().includes(searchKey) ||
+                           item.code.toLowerCase().includes(searchKey) ||
+                           item.address.toLowerCase().includes(searchKey));
+
+        const matchLevel = (levelFilter === 'ALL' || item.level === levelFilter);
+        
+        let matchRegion = true;
+        if (regionFilter !== 'ALL') {
+          if (regionFilter === 'Tỉnh ngoài') {
+            matchRegion = !item.address.includes('TP.HCM');
+          } else {
+            matchRegion = item.address.toLowerCase().includes(regionFilter.toLowerCase());
+          }
+        }
+
+        return matchText && matchLevel && matchRegion;
+      });
+
+      currentPage = 1;
+      renderHospitalTable();
+      updateCounters();
+    }
+
+    function clearHospitalSearch() {
+      document.getElementById('hospitalSearchInput').value = '';
+      filterHospitals();
+    }
+
+    function resetHospitalFilters() {
+      document.getElementById('hospitalSearchInput').value = '';
+      document.getElementById('hospitalLevelFilter').value = 'ALL';
+      document.getElementById('hospitalRegionFilter').value = 'ALL';
+      filterHospitals();
+    }
+
+    function updateCounters() {
+      document.getElementById('totalHospitalsCount').textContent = HOSPITALS.length;
+      document.getElementById('filteredHospitalsCount').textContent = filteredHospitalsList.length;
+      document.getElementById('hospitalBadge').textContent = HOSPITALS.length;
+    }
+
+    function renderHospitalTable() {
+      const tbody = document.getElementById('hospitalTableBody');
+      const mobileContainer = document.getElementById('hospitalMobileContainer');
+      const emptyState = document.getElementById('hospitalEmptyState');
+      const paginationContainer = document.getElementById('paginationContainer');
+
+      tbody.innerHTML = '';
+      mobileContainer.innerHTML = '';
+
+      if (filteredHospitalsList.length === 0) {
+        emptyState.classList.remove('hidden');
+        paginationContainer.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      paginationContainer.classList.remove('hidden');
+
+      const totalItems = filteredHospitalsList.length;
+      const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const endIndex = Math.min(startIndex + PAGE_SIZE, totalItems);
+
+      document.getElementById('pageStartIdx').textContent = totalItems === 0 ? 0 : startIndex + 1;
+      document.getElementById('pageEndIdx').textContent = endIndex;
+      document.getElementById('pageTotalItems').textContent = totalItems;
+
+      // Render từng dòng
+      for (let i = startIndex; i < endIndex; i++) {
+        const h = filteredHospitalsList[i];
+        
+        // Level badge class
+        let levelBadge = 'bg-slate-100 text-slate-700';
+        if (h.level === 'Chuyên sâu') levelBadge = 'bg-purple-100 text-purple-800 border border-purple-200';
+        else if (h.level === 'Cơ bản') levelBadge = 'bg-blue-100 text-blue-800 border border-blue-200';
+        else if (h.level === 'Ban đầu') levelBadge = 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+
+        // 1. Desktop Table Row
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-sky-50/50 transition cursor-pointer border-b border-slate-100';
+        tr.onclick = () => openHospitalModal(h);
+        tr.innerHTML = `
+          <td class="py-3 px-4 text-center font-mono text-xs text-slate-400">${i + 1}</td>
+          <td class="py-3 px-4 font-mono font-bold text-sky-700">${h.code}</td>
+          <td class="py-3 px-6">
+            <span class="font-bold text-slate-800 hover:text-sky-700 transition">${h.name}</span>
+          </td>
+          <td class="py-3 px-4">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold ${levelBadge}">${h.level}</span>
+          </td>
+          <td class="py-3 px-6 text-xs text-slate-500">${h.address}</td>
+          <td class="py-3 px-4 text-center">
+            <button onclick="event.stopPropagation(); openHospitalModalByCode('${h.code}')" class="p-1.5 text-sky-600 hover:bg-sky-100 rounded-lg text-xs" title="Xem chi tiết">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+
+        // 2. Mobile Card Item
+        const mCard = document.createElement('div');
+        mCard.className = 'bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2';
+        mCard.onclick = () => openHospitalModal(h);
+        mCard.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-mono text-xs font-bold text-sky-800 bg-sky-50 px-2 py-0.5 rounded border border-sky-200">Mã: ${h.code}</span>
+            <span class="text-xs px-2 py-0.5 rounded-full font-semibold ${levelBadge}">${h.level}</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm leading-snug">${h.name}</h4>
+          <p class="text-xs text-slate-500 flex items-start gap-1">
+            <i class="fa-solid fa-location-dot text-slate-400 mt-0.5 shrink-0"></i>
+            <span>${h.address}</span>
+          </p>
+        `;
+        mobileContainer.appendChild(mCard);
+      }
+
+      renderPaginationButtons(totalPages);
+    }
+
+    function renderPaginationButtons(totalPages) {
+      const container = document.getElementById('paginationButtons');
+      container.innerHTML = '';
+
+      if (totalPages <= 1) return;
+
+      // Nút Lùi
+      const prevBtn = document.createElement('button');
+      prevBtn.className = `px-2.5 py-1 rounded-lg border text-xs font-medium transition ${currentPage === 1 ? 'opacity-40 cursor-not-allowed bg-slate-100' : 'bg-white hover:bg-slate-100 text-slate-700'}`;
+      prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; renderHospitalTable(); } };
+      container.appendChild(prevBtn);
+
+      // Hiển thị các số trang
+      const maxButtons = 5;
+      let startP = Math.max(1, currentPage - 2);
+      let endP = Math.min(totalPages, startP + maxButtons - 1);
+      if (endP - startP < maxButtons - 1) {
+        startP = Math.max(1, endP - maxButtons + 1);
+      }
+
+      for (let p = startP; p <= endP; p++) {
+        const pBtn = document.createElement('button');
+        const isCurrent = p === currentPage;
+        pBtn.className = `px-3 py-1 rounded-lg text-xs font-bold transition ${isCurrent ? 'bg-sky-600 text-white shadow-sm' : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'}`;
+        pBtn.textContent = p;
+        pBtn.onclick = () => { currentPage = p; renderHospitalTable(); };
+        container.appendChild(pBtn);
+      }
+
+      // Nút Tiếp
+      const nextBtn = document.createElement('button');
+      nextBtn.className = `px-2.5 py-1 rounded-lg border text-xs font-medium transition ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed bg-slate-100' : 'bg-white hover:bg-slate-100 text-slate-700'}`;
+      nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderHospitalTable(); } };
+      container.appendChild(nextBtn);
+    }
+
+    // Modal Chi tiết Bệnh viện
+    function openHospitalModalByCode(code) {
+      const h = HOSPITALS.find(x => x.code === code);
+      if (h) openHospitalModal(h);
+    }
+
+    function openHospitalModal(h) {
+      const modal = document.getElementById('hospitalDetailModal');
+      const card = document.getElementById('modalCard');
+
+      document.getElementById('modalHospitalCode').textContent = 'Mã BV: ' + h.code;
+      document.getElementById('modalHospitalName').textContent = h.name;
+      document.getElementById('modalHospitalAddress').querySelector('span').textContent = h.address;
+      
+      const levelEl = document.getElementById('modalHospitalLevel');
+      levelEl.textContent = 'Cấp Kỹ Thuật: ' + h.level;
+      if (h.level === 'Chuyên sâu') levelEl.className = 'inline-block mt-1 font-semibold px-2.5 py-0.5 rounded-full text-xs bg-purple-100 text-purple-800';
+      else if (h.level === 'Cơ bản') levelEl.className = 'inline-block mt-1 font-semibold px-2.5 py-0.5 rounded-full text-xs bg-blue-100 text-blue-800';
+      else levelEl.className = 'inline-block mt-1 font-semibold px-2.5 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800';
+
+      document.getElementById('modalMapLink').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name + ' ' + h.address)}`;
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        card.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeHospitalModal() {
+      const modal = document.getElementById('hospitalDetailModal');
+      const card = document.getElementById('modalCard');
+      modal.classList.add('opacity-0');
+      card.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    // Đóng modal khi bấm ra ngoài
+    document.getElementById('hospitalDetailModal').addEventListener('click', (e) => {
+      if (e.target.id === 'hospitalDetailModal') closeHospitalModal();
+    });
+  </script>
+</body>
+</html>
